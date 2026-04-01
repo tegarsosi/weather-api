@@ -3,6 +3,12 @@ from src.core.config import settings
 
 class WeatherService:
     def __init__(self):
+        import redis.asyncio as redis
+
+        self.redis = redis.from_url(
+            settings.REDIS_URL,
+            decode_responses=True
+        )
         self.api_key = settings.WEATHER_API_KEY
         self.base_url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
     
