@@ -43,16 +43,23 @@ class WeatherService:
 
     async def get_weather(self, city: str):
         key = f"weather:{city.lower().strip()}"
-        cached_data = await self.redis.get(key)
 
-        if cached_data:
-            weather = Weather.model_validate_json(cached_data)
-            weather.cache_hit = True
-            return weather
+        try:
+            cached_data = await self.redis.get(key)
+            if cached_data:
+                weather = Weather.model_validate_json(cached_data)
+                weather.cache_hit = True
+                return weather
+        except Exception as e:
+            print(f"⚠️ Redis Error: {e}. Falling back to API.")
 
         # Fetch from API (this returns a Weather object)
         weather = await self._fetch_from_api(city)
 
-        # Save the JSON string version to Redis
-        await self.redis.set(key, weather.model_dump_json(), ex=3600)
+        try:
+            # Save the JSON string version to Redis
+            await self.redis.set(key, weather.model_dump_json(), ex=3600)
+        except Exception as e:
+            print(f"⚠️ Could not save to Redis: {e}")
+
         return weather
