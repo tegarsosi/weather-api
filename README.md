@@ -2,6 +2,8 @@
 
 A FastAPI proxy that fetches weather data from Visual Crossing and caches results in Redis.
 
+A project from [roadmap.sh](https://roadmap.sh/projects/weather-api-wrapper-service)
+
 ## Prerequisites
 - [uv](https://github.com/astral-sh/uv) installed
 - Visual Crossing API Key
