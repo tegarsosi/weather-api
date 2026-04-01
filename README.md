@@ -35,6 +35,16 @@ uv run uvicorn src.main:app --reload
 ## API Endpoints
 - `GET /weather/{city}`: Returns current temperature and conditions. Includes a cache_hit boolean.
 
+### Example Response:
+```json
+{
+    "city": "berlin",
+    "temp": 11.0,
+    "desc": "Clear",
+    "cache_hit": true
+}
+```
+
 ## Project Structure
 - `src/main.py`: FastAPI routes and entry point.
 - `src/services/weather.py`: Logic for API fetching and Redis caching.
